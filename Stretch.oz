@@ -1,3 +1,4 @@
+
 % transformation Stretch qui allonge la partition P en argument
 % par le facteurF en multipliant chaque partitionItem par F
 %Fonction pas finie 23/11/18
@@ -9,30 +10,26 @@ fun{Stretch F P}
       if {IsNote H} then
 	 local H1 in
 	    H1={NoteToExtended H}
-		local X={AdjointAt H1 duration (F*H1.duration)} in
-			X|T
-		end
-	    H1|{Stretch F T}
+	    local X={AdjoinAt H1 duration F*H1.duration} in
+	       X|{Stretch F T} 
+	    end
 	 end
       elseif {IsExtendedNote H} then
-	 local X={AdjointAt H duration (F*H.duration)} in
-			X|T
-		end
-	 H|{Stretch F T}
+	 local X={AdjoinAt H duration F*H.duration} in
+	    	 X|{Stretch F T}
+	 end
       elseif{IsChord H} then
 	 local H1 in
 	    H1={ChordToExtended H}
-	    local X={AdjointAt H1 duration (F*H1.duration)} in
-			X|T
-		end
-	    H1|{Stretch F T}
+	    local X={AdjoinAt H1 duration F*H1.duration} in
+	       X|{Stretch F T}
+	    end
 	 end
       elseif {IsExtendedChord H} then
-	 local X={AdjointAt H duration (F*H.duration)} in
-			X|T
-		end
-	 H|{Stretch F T}
-      else H|{Stretch T}
+	 local X={AdjoinAt H duration F*H.duration} in
+	    X|{Stretch F T}
+	 end
+      else H|{Stretch F T}
       end
    else nil
    end
