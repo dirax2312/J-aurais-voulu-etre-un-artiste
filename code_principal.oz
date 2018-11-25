@@ -212,3 +212,4 @@ Ex2={ChordToExtended C2}
 
 X={Stretch 3.0 C1}
 
+{Browse bite}
