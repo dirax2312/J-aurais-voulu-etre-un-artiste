@@ -1,7 +1,7 @@
-
 % transformation Stretch qui allonge la partition P en argument
 % par le facteurF en multipliant chaque partitionItem par F
 %Fonction pas finie 23/11/18
+
 
 declare
 fun{Stretch F P}
@@ -21,14 +21,10 @@ fun{Stretch F P}
       elseif{IsChord H} then
 	 local H1 in
 	    H1={ChordToExtended H}
-	    local X={AdjoinAt H1 duration F*H1.duration} in
-	       X|{Stretch F T}
-	    end
+	    {MultChord F H1} 
 	 end
       elseif {IsExtendedChord H} then
-	 local X={AdjoinAt H duration F*H.duration} in
-	    X|{Stretch F T}
-	 end
+	 {MultChord F H} 
       else H|{Stretch F T}
       end
    else nil
