@@ -9,20 +9,28 @@ fun{Stretch F P}
       if {IsNote H} then
 	 local H1 in
 	    H1={NoteToExtended H}
-	    %changer duration
+		local X={AdjointAt H1 duration (F*H1.duration)} in
+			X|T
+		end
 	    H1|{Stretch F T}
 	 end
       elseif {IsExtendedNote H} then
-	 %changer duration
+	 local X={AdjointAt H duration (F*H.duration)} in
+			X|T
+		end
 	 H|{Stretch F T}
       elseif{IsChord H} then
 	 local H1 in
 	    H1={ChordToExtended H}
-	    %changer duration
+	    local X={AdjointAt H1 duration (F*H1.duration)} in
+			X|T
+		end
 	    H1|{Stretch F T}
 	 end
       elseif {IsExtendedChord H} then
-	 %changer duration
+	 local X={AdjointAt H duration (F*H.duration)} in
+			X|T
+		end
 	 H|{Stretch F T}
       else H|{Stretch T}
       end
