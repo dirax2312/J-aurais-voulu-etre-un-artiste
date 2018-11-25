@@ -157,7 +157,7 @@ declare
 fun{ChordToExtended Chord}
    case Chord
    of nil then nil
-   [] H|T then {NoteToExtended H}|{ChordToExtend T}
+   [] H|T then {NoteToExtended H}|{ChordToExtended T}
    end
 end
 
@@ -200,3 +200,15 @@ fun{Stretch F P}
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+declare
+N1=a#2
+N2=g
+C1=[c e g c]
+{Browse C1}
+C2=[d f a d]
+Ex1={NoteToExtended N1}
+Ex2={ChordToExtended C2}
+
+X={Stretch 3.0 C1}
+
