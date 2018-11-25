@@ -163,9 +163,26 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%Renvoit un Extended Chord dont on a Multiplie la duration de
+%chaque Extrended Note par le facteur F
+
+declare
+fun{MultChord F Chord}
+   case Chord
+   of nil then nil
+   [] H|T then
+      local X = {AdjoinAt H duration F*H.duration}
+      in X|{MultChord F T}
+      end
+   end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % transformation Stretch qui allonge la partition P en argument
 % par le facteurF en multipliant chaque partitionItem par F
 %Fonction pas finie 23/11/18
+
 
 declare
 fun{Stretch F P}
@@ -185,14 +202,10 @@ fun{Stretch F P}
       elseif{IsChord H} then
 	 local H1 in
 	    H1={ChordToExtended H}
-	    local X={AdjoinAt H1 duration F*H1.duration} in
-	       X|{Stretch F T}
-	    end
+	    {MultChord F H1} 
 	 end
       elseif {IsExtendedChord H} then
-	 local X={AdjoinAt H duration F*H.duration} in
-	    X|{Stretch F T}
-	 end
+	 {MultChord F H} 
       else H|{Stretch F T}
       end
    else nil
@@ -204,12 +217,12 @@ end
 declare
 N1=a#2
 N2=g
-C1=[c e g c]
+E=[f g]
+C1=[c E g c]
 {Browse C1}
 C2=[d f a d]
 Ex1={NoteToExtended N1}
 Ex2={ChordToExtended C2}
 
-X={Stretch 3.0 C1}
-
-{Browse bite}
+X={Stretch 0.5 C1}
+{Browse X}
