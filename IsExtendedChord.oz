@@ -7,7 +7,7 @@ fun{IsExtendedChord Chord}
    case Chord
    of nil then true
    [] H|T then
-      if {IsExtendedNote H} then {IsChord T}
+      if {IsExtendedNote H} then {IsExtendedChord T}
       else false
       end
    else false 
