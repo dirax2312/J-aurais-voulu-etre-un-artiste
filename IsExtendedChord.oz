@@ -1,5 +1,5 @@
 % Prend un Extended chord en argument et verifie s'il s'agit bien d'un Extended
-% chord en renvoyant true si c'est le cas et false sinon. Le cas où le chord
+% chord en renvoyant true si c'est le cas et false sinon. Le cas oÃ¹ le chord
 % est nil renvoit true
 
 declare
@@ -10,5 +10,6 @@ fun{IsExtendedChord Chord}
       if {IsExtendedNote H} then {IsChord T}
       else false
       end
+   else false 
    end
 end
