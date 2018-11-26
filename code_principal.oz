@@ -9,8 +9,7 @@
 
 declare
 fun{IsNote A}
-   case A of nil then true
-   [] Name#Octave then
+   case A of  Name#Octave then
       if ( Name==a orelse Name==b orelse Name==c orelse Name==d orelse
 	   Name==e orelse Name==f orelse Name==g andthen {IsInt Octave})
       then
@@ -19,32 +18,35 @@ fun{IsNote A}
 	 false
       end
    [] Atom then
-      if Atom==silence then true
-	 else 
-	 case {AtomToString Atom} of [_] then
-	    if ( Atom==a orelse Atom==b orelse Atom==c orelse Atom==d orelse
+      if{IsAtom Atom} then
+	 if Atom==silence then true
+	  else 
+	    case {AtomToString Atom} of [_] then
+	       if ( Atom==a orelse Atom==b orelse Atom==c orelse Atom==d orelse
 		 Atom==e orelse Atom==f orelse Atom==g)
-	    then
-	       true
+	       then
+		  true
+	       else
+		  false
+	       end
+	    [] [N O] then
+	       if ([N]=={AtomToString a} orelse [N]=={AtomToString b} orelse [N]=={AtomToString c} orelse [N]=={AtomToString d} orelse
+		   [N]=={AtomToString e} orelse [N]=={AtomToString f} orelse [N]=={AtomToString g} andthen {IsInt {StringToInt [O]}})
+	       then
+		  true
+	       else
+		  false
+	       end    
 	    else
 	       false
 	    end
-	 [] [N O] then
-	    if ([N]=={AtomToString a} orelse [N]=={AtomToString b} orelse [N]=={AtomToString c} orelse [N]=={AtomToString d} orelse
-		[N]=={AtomToString e} orelse [N]=={AtomToString f} orelse [N]=={AtomToString g} andthen {IsInt {StringToInt [O]}})
-	    then
-	       true
-	    else
-	       false
-	    end    
-	 else
-	    false
 	 end
-      end
-      
-   else false
+      else
+	 false
+      end      
    end
 end
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -60,6 +62,7 @@ fun{IsChord Chord}
       if {IsNote H} then {IsChord T}
       else false
       end
+   else false
    end
 end
 
@@ -116,7 +119,7 @@ fun{IsExtendedChord Chord}
    case Chord
    of nil then true
    [] H|T then
-      if {IsExtendedNote H} then {IsChord T}
+      if {IsExtendedNote H} then {IsExtendedChord T}
       else false
       end
    end
@@ -158,7 +161,8 @@ fun{ChordToExtended Chord}
    case Chord
    of nil then nil
    [] H|T then {NoteToExtended H}|{ChordToExtended T}
-   end
+   else false
+   end   
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -179,50 +183,27 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% transformation Stretch qui allonge la partition P en argument
-% par le facteurF en multipliant chaque partitionItem par F
-%Fonction pas finie 23/11/18
-
+% Convertit une partition en flat partition %
+% Cas des Transformations à traiter
 
 declare
-fun{Stretch F P}
-   case P of nil then nil
+fun{PartitionToTimedList Part}
+   case Part of nil then nil
    [] H|T then
       if {IsNote H} then
-	 local H1 in
-	    H1={NoteToExtended H}
-	    local X={AdjoinAt H1 duration F*H1.duration} in
-	       X|{Stretch F T} 
-	    end
-	 end
+	 {NoteToExtended H}|{PartitionToTimedList T}
+      elseif {IsChord H} then
+	 {ChordToExtended H}|{PartitionToTimedList T}
       elseif {IsExtendedNote H} then
-	 local X={AdjoinAt H duration F*H.duration} in
-	    	 X|{Stretch F T}
-	 end
-      elseif{IsChord H} then
-	 local H1 in
-	    H1={ChordToExtended H}
-	    {MultChord F H1} 
-	 end
+	 H|{PartitionToTimedList T}
       elseif {IsExtendedChord H} then
-	 {MultChord F H} 
-      else H|{Stretch F T}
+	 H|{PartitionToTimedList T}
+	% elseif {IsTransformation} then   %à modifier
+      else nil                             %à modifier
       end
    else nil
-   end
+   end  
 end
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-declare
-N1=a#2
-N2=g
-E=[f g]
-C1=[c E g c]
-{Browse C1}
-C2=[d f a d]
-Ex1={NoteToExtended N1}
-Ex2={ChordToExtended C2}
-
-X={Stretch 0.5 C1}
-{Browse X}
