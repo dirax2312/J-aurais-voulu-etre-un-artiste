@@ -1,8 +1,3 @@
-% transformation Stretch qui allonge la partition P en argument
-% par le facteurF en multipliant chaque partitionItem par F
-%Fonction pas finie 23/11/18
-
-
 declare
 fun{Stretch F P}
    case P of nil then nil
