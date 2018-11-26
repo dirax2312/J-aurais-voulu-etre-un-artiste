@@ -1,10 +1,10 @@
 % Transforme un accord (liste de notes) en un accord etendu (une liste de note
-% étendues)
+% Ã©tendues)
 
 declare
 fun{ChordToExtended Chord}
    case Chord
    of nil then nil
-   [] H|T then {NoteToExtended H}|{ChordToExtend T}
+   [] H|T then {NoteToExtended H}|{ChordToExtended T}
    end
 end
