@@ -122,6 +122,7 @@ fun{IsExtendedChord Chord}
       if {IsExtendedNote H} then {IsExtendedChord T}
       else false
       end
+   else false 	
    end
 end
 
