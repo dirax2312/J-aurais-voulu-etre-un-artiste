@@ -6,21 +6,11 @@ fun{Longueur Partition}
       case Partition
       of nil then Acc
       [] H|T then
-	 if {IsExtendedNote H} then
-	    {Browse 1}
-	    {Longueur T Acc+1}
-	 elseif {IsNote H} then
-	    {Browse 2}
-	    {Longueur T Acc+1}
-	 elseif {IsChord H} then
-	    {Browse 3}
-	    {Longueur T Acc+{Length H}}
-	 elseif {IsExtendedChord H} then
-	    {Browse 4}
-	    {Longueur T Acc+{Length H}}
-	 else
-	    {Browse 5}
-	    {Longueur H 0}+{Longueur T Acc}
+	 if {IsNote H} then {Longueur T Acc+1}
+	 elseif {IsExtendedNote H} then {Longueur T Acc+1}
+	 elseif {IsChord H} then {Longueur T Acc+{Length H}}
+	 elseif {IsExtendedChord H} then {Longueur T Acc+{Length H}}
+	 else {Longueur H 0}+{Longueur T Acc}
 	 end
       end
    end
