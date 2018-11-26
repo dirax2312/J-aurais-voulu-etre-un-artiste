@@ -30,7 +30,7 @@ fun{Duration NbrSec Partition}
 		  in X|{Duration1 T NewDuration}
 		  end
 	       elseif {IsExtendedChord H} then
-		  {ChangeChord H NewDuration}|{Duration1 T NewDuration}
+		  {ChangeChord NewDuration H}|{Duration1 T NewDuration}
 	       else H|{Duration1 T NewDuration}
 	       end
 	    else nil
