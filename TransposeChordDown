@@ -6,6 +6,6 @@ declare
 fun{TransposeChordDown Ch}
    case Ch of nil then nil
    [] H|T then
-      {SemiTransposeDown H}|{TransposeChDown T}
+      {SemiTransposeDown H}|{TransposeChordDown T}
    end
 end
