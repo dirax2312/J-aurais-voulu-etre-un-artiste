@@ -3,18 +3,6 @@
 % si Num est négatif.
 
 declare
-fun {TransposeCase Num Item}
-   if Num \= 0 then
-      if Num > 0 then
-	 {TransposeCase Num-1 {SemiTransposeCase Num Item}}
-      else
-	 {TransposeCase Num+1 {SemiTransposeCase Num Item}}
-      end
-   else Item
-   end
-end
-
-declare
 fun{TransposeCase1 Num Item}
    if Num==0 then Item
    elseif Num > 0 then
