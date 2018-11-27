@@ -315,3 +315,86 @@ fun{ChangeChord NewDuration Chord}
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Transpose l'ExtNote mise en argument d'un demi ton au dessus
+
+declare
+fun{SemiTransposeUp ExtNote}
+   if (ExtNote.name == c orelse
+       ExtNote.name == d orelse
+       ExtNote.name == f orelse
+       ExtNote.name == g orelse
+       ExtNote.name == a) andthen ExtNote.sharp == false
+   then {AdjoinAt ExtNote sharp true}
+   elseif ExtNote.name == e then {AdjoinAt ExtNote name f}
+   elseif ExtNote.name == b then
+      {AdjoinList ExtNote [name#c octave#(ExtNote.octave+1)]}
+   elseif ExtNote.name == c then {AdjoinList ExtNote [name#d sharp#false]}
+   elseif ExtNote.name == d then {AdjoinList ExtNote [name#e sharp#false]}
+   elseif ExtNote.name == f then {AdjoinList ExtNote [name#g sharp#false]}
+   elseif ExtNote.name == g then {AdjoinList ExtNote [name#a sharp#false]}
+   elseif ExtNote.name == a then {AdjoinList ExtNote [name#b sharp#false]}
+   else ExtNote
+   end
+end
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Transpose une ExtNote d'un demi ton vers le bas
+
+declare
+fun{SemiTransposeDown ExtNote}
+   if(ExtNote.name == d andthen {Not ExtNote.sharp}) then
+      {AdjoinList ExtNote [name#c sharp#true]}
+   elseif (ExtNote.name == e andthen {Not ExtNote.sharp}) then
+      {AdjoinList ExtNote [name#d sharp#true]}
+   elseif (ExtNote.name == g andthen {Not ExtNote.sharp}) then
+      {AdjoinList ExtNote [name#f sharp#true]}
+   elseif (ExtNote.name == a andthen {Not ExtNote.sharp}) then
+      {AdjoinList ExtNote [name#g sharp#true]}
+   elseif (ExtNote.name == b andthen {Not ExtNote.sharp}) then
+      {AdjoinList ExtNote [name#a sharp#true]}
+      
+   elseif (ExtNote.name == f andthen {Not ExtNote.sharp})  then
+      {AdjoinAt ExtNote name e}
+   elseif (ExtNote.name == c andthen {Not ExtNote.sharp}) then
+      {AdjoinList ExtNote [name#b octave#(ExtNote.octave-1)]}
+   elseif (ExtNote.name == c orelse
+	   ExtNote.name == d orelse
+	   ExtNote.name == f orelse
+	   ExtNote.name == g orelse
+	   ExtNote.name == a) andthen ExtNote.sharp
+   then {AdjoinAt ExtNote sharp false}
+   else ExtNote
+   end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Transpose toutes les Extended notes contenues dans
+%le Extended Chord pris en argument d'un demi ton
+% vers le haut
+
+declare
+fun{TransposeChordUp Ch}
+   case Ch of nil then nil
+   [] H|T then
+      {SemiTransposeUp H}|{TransposeChordUp T}
+   end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Transpose toutes les Extended notes contenues dans
+%le Extended Chord pris en argument d'un demi ton
+% vers le haut
+
+declare
+fun{TransposeChordDown Ch}
+   case Ch of nil then nil
+   [] H|T then
+      {SemiTransposeDown H}|{TransposeChordDown T}
+   end
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
