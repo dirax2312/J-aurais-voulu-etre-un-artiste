@@ -1,3 +1,5 @@
+% Transpose l'item d'un demi ton vers le dessus si N>0 et vers le bas si N<0
+
 declare
 fun{SemiTransposeCase Num Item}
    if Num > 0 then
@@ -7,7 +9,7 @@ fun{SemiTransposeCase Num Item}
 	 {SemiTransposeUp Item}
       elseif {IsChord Item} then
 	 {TransposeChordUp {ChordToExtended Item}}
-      elseif {IsEtendedChord Item} then
+      elseif {IsExtendedChord Item} then
 	 {TransposeChordUp Item}
       else nil
       end
@@ -18,10 +20,10 @@ fun{SemiTransposeCase Num Item}
 	 {SemiTransposeDown Item}
       elseif {IsChord Item} then
 	 {TransposeChordDown {ChordToExtended Item}}
-      elseif {IsEtendedChord Item} then
+      elseif {IsExtendedChord Item} then
 	 {TransposeChordDown Item}
       else nil
       end
-   else Part
+   else Item
    end
 end
