@@ -1,4 +1,4 @@
-% renvoye une partition qui a ete augment�e d'une certain nombre (Num) de demi tons
+% renvoye une partition qui a ete augmentée/diminuée d'une certain nombre (Num) de demi tons
 
 declare
 fun{Transpose Num Part}
