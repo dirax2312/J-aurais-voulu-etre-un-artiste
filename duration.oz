@@ -1,5 +1,5 @@
 %Renvoye une partition ou les durées de chaque note sont remplacées par la durée NbrSec mise en argument divisée 
-%par le nombre total de note qu'il y a dans la partition
+%par le nombre total de note qu'il y a dans la partition. ATTENTION :  L'argument NbrSec est un FLOAT !!!!
 
 declare
 fun{Duration NbrSec Partition}
