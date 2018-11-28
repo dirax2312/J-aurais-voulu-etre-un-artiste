@@ -1,5 +1,6 @@
-% NoteToExtended modifié par nos soins pour prendre en compte un silence %
+% NoteToExtended modifiÃ© par nos soins pour prendre en compte un silence %
 % Prend une note en argument et renvoit la extended note correspondante %
+% Necessite les fcts : /
 
 
 declare
@@ -21,3 +22,17 @@ fun {NoteToExtended Note}
       end
    end
 end
+
+%Test 
+declare 
+Note1 = a
+Note2 = b2
+Note3 = c4
+Note4 = silence 
+Note5 = d#5
+
+{Browse {NoteToExtended Note1}}
+{Browse {NoteToExtended Note2}}
+{Browse {NoteToExtended Note3}}
+{Browse {NoteToExtended Note4}}
+{Browse {NoteToExtended Note5}}
