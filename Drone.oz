@@ -1,11 +1,11 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % Prend un argument Note et un nombre Num
 % renoit une liste qui comprends Num fois Note
 % Si Note est une note, la fonction renvoit une liste de note
 % Si Note est une extended note, la fonction
 % renvoit une liste d'extended note
 % Si note est quoi que ce soit d'autre, renvoit nil
+
+% Nécessite: IsNote NoteToExtended IsExtended
 
 declare
 fun{Drone Note Num}
@@ -32,3 +32,11 @@ fun{Drone Note Num}
 in
    {Drone1 Note Num nil}
 end
+
+% Test
+{Browse {Drone a 3}}
+{Browse {Drone a#2 6}}
+{Browse {Drone a4 0}} %renvoit nil
+{Browse {Drone g 3}}
+{Browse {Drone r 1}} %renvoit nil
+{Browse {Drone a ~1}} %renvoit nil
