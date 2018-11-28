@@ -2,6 +2,7 @@
 % tons si Num est positif. Le diminue de Num demi-tons
 % si Num est négatif.
 
+
 declare
 fun{TransposeCase1 Num Item}
    if Num==0 then Item
@@ -10,3 +11,5 @@ fun{TransposeCase1 Num Item}
    else {TransposeCase1 Num+1 {SemiTransposeCase ~1 Item}}
    end
 end
+
+
