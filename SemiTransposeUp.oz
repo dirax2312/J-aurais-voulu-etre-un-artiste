@@ -25,6 +25,7 @@ fun{SemiTransposeUp ExtNote}
    end
 end
 
+%Test
 declare
 ExtNote1=note(name:d octave:3 sharp:true duration:2.0 instrument:none)
 ExtNote2=note(name:d octave:3 sharp:false duration:2.0 instrument:none)
