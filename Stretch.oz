@@ -1,7 +1,6 @@
 % transformation Stretch qui allonge la partition P en argument
 % par le facteurF en multipliant chaque partitionItem par F
-%Fonction pas finie 23/11/18
-
+% Necessité : IsNote, NoteToExtended, IsExtendedNote, IsChord, ChordToExtended, IsExtendedChord, MultChord
 
 declare
 fun{Stretch F P}
@@ -30,3 +29,24 @@ fun{Stretch F P}
    else nil
    end
 end
+
+
+%Test 
+declare 
+Note1 = a
+Note2 = b#4
+Note3 = f2
+Note4 = silence 
+ExtNote1 = note(name:a octave:6 sharp:true duration:4.0 instrument:none)
+ExtNote2 = note(name:c octave:2 sharp:false duration:4.2 instrument:none)
+ExtNote3 = note(name:g octave:3 sharp:true duration:1.5 instrument:none)
+ExtNote4 = silence(duration:4.0)
+Chord = [Note1 Note2 Note3]
+Chord1 = [Note3 Note1]
+ExtChord =[ExtNote1 ExtNote2 ExtNote3 ExtNote4]
+ExtChord1 = [ExtNote4 ExtNote1]
+Part = [Note3 Note4 ExtNote3 ExtNote4 Chord ExtChord]
+Part1 = [Note1 ExtNote1 Chord1 ExtChord1]
+
+{Browse {Stretch 2.0 Part}}
+{Browse {Stretch 2.0 Part1}}
