@@ -7,8 +7,8 @@
 declare
 fun{IsNote A}
    case A of  Name#Octave then
-      if ( Name==a orelse Name==b orelse Name==c orelse Name==d orelse
-	   Name==e orelse Name==f orelse Name==g andthen {IsInt Octave})
+      if ( Name==a orelse Name==c orelse Name==d
+	   orelse Name==f orelse Name==g andthen {IsInt Octave})
       then true
       else false
       end
@@ -48,7 +48,10 @@ end
 {Browse {IsNote g}}
 {Browse {IsNote a#1}}
 {Browse {IsNote a1}}
+
 %doit renvoyer false
 {Browse {IsNote h}}
+{Browse {IsNote b#1}}
+{Browse {IsNote e#3}}
 {Browse {IsNote r#3}}
 {Browse {IsNote t2}}
