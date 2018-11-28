@@ -1,4 +1,6 @@
 % Transpose l'item d'un demi ton vers le dessus si N>0 et vers le bas si N<0
+%Necessité : IsNote, NoteToExtended, IsExtendedNote, IsChord, ChordToExtended, IsExtendedChord, TransposeChordUp, TransposeChordDown,
+% SemiTransposeUp, SempiTransposeDown
 
 declare
 fun{SemiTransposeCase Num Item}
@@ -27,3 +29,26 @@ fun{SemiTransposeCase Num Item}
    else Item
    end
 end
+
+
+%Test
+declare
+ExtNote1=note(name:d octave:3 sharp:true duration:2.0 instrument:none)
+ExtNote2=note(name:d octave:3 sharp:false duration:2.0 instrument:none)
+Note1 = a3
+Note2 = b
+Chord = [Note1 Note2]
+ExtChord = [ExtNote1 ExtNote2]
+
+{Browse {SemiTransposeCase ~1 ExtNote1}}
+{Browse {SemiTransposeCase 1 ExtNote1}}
+{Browse {SemiTransposeCase ~1 ExtNote2}}
+{Browse {SemiTransposeCase 1 ExtNote2}}
+{Browse {SemiTransposeCase ~1 Note1}}
+{Browse {SemiTransposeCase 1 Note1}}
+{Browse {SemiTransposeCase ~1 Note2}}
+{Browse {SemiTransposeCase 1 Note2}}
+{Browse {SemiTransposeCase ~1 Chord}}
+{Browse {SemiTransposeCase 1 Chord}}
+{Browse {SemiTransposeCase ~1 ExtChord}}
+{Browse {SemiTransposeCase 1 ExtChord}}
