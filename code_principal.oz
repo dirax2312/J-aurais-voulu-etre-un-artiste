@@ -220,6 +220,8 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Prend un argument Note et un nombre Num
 % renoit une liste qui comprends Num fois Note
 % Si Note est une note, la fonction renvoit une liste de note
@@ -233,7 +235,7 @@ fun{Drone Note Num}
 	 if{IsNote Note} then
 	    if{IsInt Num} then
 	       if Num > 0 then
-		  {Drone1 Note Num-1 Note|Acc} 
+		  {Drone1 {NoteToExtended Note} Num-1 {NoteToExtended Note}|Acc} 
 	       else Acc
 	       end
 	    else nil
@@ -244,9 +246,9 @@ fun{Drone Note Num}
 		  {Drone1 Note Num-1 Note|Acc} 
 	       else Acc
 	       end
-	    else nil
+	    else Acc
 	    end
-	 else nil
+	 else Acc
 	 end
       end      
 in
