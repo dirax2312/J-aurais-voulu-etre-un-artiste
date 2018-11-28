@@ -1,5 +1,7 @@
 %Transpose une ExtNote d'un demi ton vers le bas
 
+% Nécessite: /
+
 declare
 fun{SemiTransposeDown ExtNote}
    if(ExtNote.name == d andthen {Not ExtNote.sharp}) then
@@ -27,6 +29,7 @@ fun{SemiTransposeDown ExtNote}
    end
 end
 
+% Test
 declare
 ExtNote1 = note(name:a octave:3 sharp:true duration:2.0 instrument:none)
 ExtNote2 = note(name:a octave:3 sharp:false duration:2.0 instrument:none)
