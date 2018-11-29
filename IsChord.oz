@@ -21,6 +21,8 @@ end
 {Browse {IsChord [a g f]}}
 {Browse {IsChord [a]}}
 {Browse {IsChord nil}}
+{Browse {IsChord [silence silence]}}
 
 %doit renvoyer false
 {Browse {IsChord [a note(name:f octave:2 sharp:true duration:1.0 instrument:none) f]}}
+{Browse {IsChord [silence bonjour]}}
