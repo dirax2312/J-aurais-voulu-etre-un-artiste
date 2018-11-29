@@ -60,3 +60,11 @@ ExtChord = [ExtNote1 ExtNote2]
 {Browse {SemiTransposeCase 1 Chord}}
 {Browse {SemiTransposeCase ~1 ExtChord}}
 {Browse {SemiTransposeCase 1 ExtChord}}
+
+declare
+ExtNote3=silence(duration:2.0)
+Note3= silence
+{Browse {SemiTransposeCase ~1 ExtNote3}}
+{Browse {SemiTransposeCase 1 ExtNote3}}
+{Browse {SemiTransposeCase ~1 Note3}}
+{Browse {SemiTransposeCase 1 Note3}}
