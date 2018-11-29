@@ -1,14 +1,22 @@
 % Transpose l'item d'un demi ton vers le dessus si N>0 et vers le bas si N<0
-%Necessité : IsNote, NoteToExtended, IsExtendedNote, IsChord, ChordToExtended, IsExtendedChord, TransposeChordUp, TransposeChordDown,
+%NecessitÃ© : IsNote, NoteToExtended, IsExtendedNote, IsChord, ChordToExtended, IsExtendedChord, TransposeChordUp, TransposeChordDown,
 % SemiTransposeUp, SempiTransposeDown
 
 declare
 fun{SemiTransposeCase Num Item}
    if Num > 0 then
       if {IsNote Item} then
-	 {SemiTransposeUp {NoteToExtended Item}}
+	 if Item == silence then
+	    {NoteToExtended Item}
+	 else
+	    {SemiTransposeUp {NoteToExtended Item}}
+	 end
       elseif {IsExtendedNote Item} then
-	 {SemiTransposeUp Item}
+	 case Item of silcence(duration:Dur) then
+	    Item
+	 else
+	    {SemiTransposeUp Item}
+	 end
       elseif {IsChord Item} then
 	 {TransposeChordUp {ChordToExtended Item}}
       elseif {IsExtendedChord Item} then
