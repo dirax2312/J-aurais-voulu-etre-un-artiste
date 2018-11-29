@@ -55,6 +55,9 @@ ExtNote7=note(name:g octave:7 sharp:true duration:5.0 instrument:none)
 ExtNote8=note(name:e octave:7 sharp:true duration:5.0 instrument:none)
 ExtNote9=note(name:b octave:7 sharp:true duration:5.0 instrument:none)
 ExtNote10=note(name:h octave:7 sharp:true duration:5.0 instrument:none)
+ExtNote11=silence(duration:2.0)
+ExtNote12=silence(name:a)
+
 
 %doit renvoyer true
 {Browse {IsExtendedNote ExtNote1}}
@@ -64,8 +67,10 @@ ExtNote10=note(name:h octave:7 sharp:true duration:5.0 instrument:none)
 {Browse {IsExtendedNote ExtNote5}}
 {Browse {IsExtendedNote ExtNote6}}
 {Browse {IsExtendedNote ExtNote7}}
+{Browse {IsExtendedNote ExtNote11}}
 
 %doit renvoyer false
 {Browse {IsExtendedNote ExtNote8}}
 {Browse {IsExtendedNote ExtNote9}}
 {Browse {IsExtendedNote ExtNote10}}
+{Browse {IsExtendedNote ExtNote12}}
