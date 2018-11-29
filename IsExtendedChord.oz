@@ -30,13 +30,16 @@ ExtNote8=note(name:e octave:7 sharp:true duration:5.0 instrument:none)
 ExtNote9=note(name:b octave:7 sharp:true duration:5.0 instrument:none)
 ExtNote10=note(name:h octave:7 sharp:true duration:5.0 instrument:none)
 ExtNote11=note(name:g octave:7 sharp:true duration:5.0 instrument:none)
+ExtNote12=silence(duration:3.0)
+ExtNote13=silence(name:a)
 
 declare
 ExtChord1=[ExtNote1 ExtNote4 ExtNote2]
-ExtChord2=[ExtNote2]
+ExtChord2=[ExtNote2 ExtNote12]
 ExtChord3=nil
 ExtChord4=[ExtNote3 ExtNote10]
 ExtChord5=[ExtNote3 a]
+ExtChord=[ExtNote1 ExtNote13]
 
 %doit renvoyer true
 {Browse {IsExtendedChord ExtChord1}}
