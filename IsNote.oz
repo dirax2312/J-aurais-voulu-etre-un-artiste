@@ -48,6 +48,7 @@ end
 {Browse {IsNote g}}
 {Browse {IsNote a#1}}
 {Browse {IsNote a1}}
+{Browse {IsNote silence}}
 
 %doit renvoyer false
 {Browse {IsNote h}}
@@ -55,3 +56,5 @@ end
 {Browse {IsNote e#3}}
 {Browse {IsNote r#3}}
 {Browse {IsNote t2}}
+{Browse {IsNote [e b]}}
+{Browse {IsNote bonjou}}
