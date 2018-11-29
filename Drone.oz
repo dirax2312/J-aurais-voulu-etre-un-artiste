@@ -33,10 +33,21 @@ in
    {Drone1 Note Num nil}
 end
 
-% Test
+
+% Test:
+
+declare
+ExtNote1=note(name:a octave:1 sharp:false duration:1.0 instrument:none)
+ExtNote2=note(name:b octave:2 sharp:false duration:0.25 instrument:none)
+ExtNote12=silence(duration:3.0)
+
+{Browse {Drone ExtNote1 2}}
+{Browse {Drone ExtNote2 2}}
+{Browse {Drone ExtNote3 2}}
 {Browse {Drone a 3}}
 {Browse {Drone a#2 6}}
 {Browse {Drone a4 0}} %renvoit nil
 {Browse {Drone g 3}}
 {Browse {Drone r 1}} %renvoit nil
 {Browse {Drone a ~1}} %renvoit nil
+{Browse {Drone silence 3}}
