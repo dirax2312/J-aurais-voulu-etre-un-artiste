@@ -38,15 +38,4 @@ ExtNote8 = note(name:e octave:3 sharp:false duration:2.0 instrument:none)
 ExtNote9 = note(name:f octave:3 sharp:true duration:2.0 instrument:none)
 ExtNote10 = note(name:f octave:3 sharp:false duration:2.0 instrument:none)
 ExtNote11 = note(name:g octave:3 sharp:true duration:2.0 instrument:none)
-ExtNote12 = note(name:g octave:3 sharp:false duration:2.0 instrument:none)
-      
-declare
-fun{Hauteur Note}
-   fun(HauteurAcc Note Acc}
-      if (Note.name == a andthen Note.sharp == false andthen Note.octave==4)
-	 orelse {Label Note} == silence then Acc
-      elseif {IsExtendedNote Note} then
-	 if {Emplacement Note<0
-	 {HauteurAcc {
-	 
-      
+ExtNote12 = note(name:g octave:3 sharp:false duration:2.0 instrument:none)     
