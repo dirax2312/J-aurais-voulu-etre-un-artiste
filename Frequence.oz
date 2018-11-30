@@ -89,7 +89,7 @@ fun{Hauteur Note}
 in
    {HauteurAcc Note 0}
 end
-% Renvoye la frequence de la note selon la formule donnée dans l'enoncé
+% Renvoye la frequence de la note selon la formule donnÃ©e dans l'enoncÃ©
 % Necessite : Hauteur 
 declare
 fun{Frequence Note}
