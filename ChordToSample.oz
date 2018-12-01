@@ -10,6 +10,7 @@ fun{ChordToSample Chord}
    end
 end
 
+%Test
 declare
 N1 = note(name:a octave:4 sharp:false duration:0.0001 instrument:none)
 N9 = silence(duration:0.0001)
