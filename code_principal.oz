@@ -580,3 +580,20 @@ fun{Emplacement Note}
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Renvoye la haute d'une note etendue
+%Necessite : Emplacement, SemiTransposeUp, SemiTransposeDown
+
+declare
+fun{Hauteur Note}
+   fun{HauteurAcc Note Acc}
+      if {Emplacement Note} == 0 then Acc
+      elseif {Emplacement Note} < 0 then {HauteurAcc {SemiTransposeUp Note} Acc-1}
+      else  {HauteurAcc {SemiTransposeDown Note} Acc+1}
+      end
+   end
+in
+   {HauteurAcc Note 0}
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
