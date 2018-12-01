@@ -459,3 +459,19 @@ fun{TransposeChordUp Ch}
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Transpose toutes les Extended notes contenues dans
+%le Extended Chord pris en argument d'un demi ton
+% vers le haut
+
+%Nécessite: SemiTransposeDown
+
+declare
+fun{TransposeChordDown Ch}
+   case Ch of nil then nil
+   [] H|T then
+      {SemiTransposeDown H}|{TransposeChordDown T}
+   end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
