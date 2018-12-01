@@ -653,3 +653,53 @@ fun{ChordToSamples Chord}
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Additionne 2 listes Ã©lÃ©ments par Ã©lÃ©ments et renvoye une liste avec les sommes. Si les deux listes ne sont pas de mÃªme longeurs, le debut 
+%de la liste renvoyÃ©e sera la somme des deux listes et losrsque la liste la plus courte est finie, on place les elements de la liste la plus
+%longue (ex : si L1 = [1 2] et L2 = [1 2 3 4] le debut de la liste renvoyÃ©e sera [2 4 et la suite sera 3 4] )
+%Necessite : /
+
+declare
+fun{Add2Listes L1 L2}
+   case L1#L2
+   of nil#nil then nil
+   [] (H1|T1)#(H2|T2) then (H1+H2)|{Add2Listes T1 T2}
+   [] nil#(H2|T2) then H2|{Add2Listes nil T2}
+   [] (H1|T1)#nil then H1|{Add2Listes T1 nil}
+   end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%Additionne les samples qui se trouvent dans le chord. Si les listes de samples ne sont pas de meme longueurs, on suit le 
+%processus de Add2Listes car on complete la liste la plus courte par des silences dont l'intensitÃ© vaut 0.
+%Necessite :  Add2Listes 
+
+declare
+fun{ChordToOneSample Chord}
+   case Chord
+   of nil then nil
+   [] H|nil then H
+   [] H1|H2|T then {ChordToOneSample {Add2Listes H1 H2}|T}
+   end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%prend en argument une partiton et renvoit la liste de sample correspondant
+
+%Nécessite: IsExtendedNote NoteToSample ChordToOneSample
+
+declare
+fun{PartitionToSamples Partition}
+   case Partition of nil then nil
+   [] H|T then
+      if {IsExtendedNote H} then
+	 {NoteToSample H}|{PartitionToSamples T}
+      else {ChordToOneSample {ChordToSamples H}}|{PartitionToSamples T}
+      end
+   end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
