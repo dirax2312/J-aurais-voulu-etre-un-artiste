@@ -557,3 +557,26 @@ fun{PartitionToTimedList Part}
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Renvoye 1 si la note est au dessus de A4 -1 si c'est en dessus et 0 si c'est un silence ou A4
+%Necessite : /
+declare
+fun{Emplacement Note}
+   case Note of note(name:N octave:O sharp:S duration:D instrument:I) then 
+      if (O < 4) then ~1
+      elseif (O > 4) then 1
+      elseif
+	 (N == c orelse
+	  N == d orelse
+	  N == e orelse
+	  N == f orelse
+	  N == g) then ~1
+      elseif ((N == a andthen S == true) orelse
+	      N == b) then 1
+      else 0
+      end
+   else 0
+   end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
