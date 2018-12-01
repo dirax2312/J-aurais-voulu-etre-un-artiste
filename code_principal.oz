@@ -242,6 +242,23 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% renvoye l'accord mis en argument avec chacunes des valeurs duration remplacée par la valeur NewDuration
+% ATTENTION le chord mis en argument est un ExtendedChord et la NewDuration est un Float
+% Necessite: /
+
+declare
+fun{ChangeChord NewDuration Chord}
+   case Chord
+   of nil then nil
+   [] H|T then
+      local X = {AdjoinAt H duration NewDuration}
+      in X|{ChangeChord NewDuration T}
+      end
+   end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %Renvoye une partition ou les durées de chaque note sont remplacées par la durée NbrSec mise en argument divisée 
 %par le nombre total de note qu'il y a dans la partition. 
 %ATTENTION :  L'argument NbrSec est un Float
