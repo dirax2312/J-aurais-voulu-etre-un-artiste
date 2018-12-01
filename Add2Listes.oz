@@ -1,4 +1,6 @@
-%Additionne 2 listes éléments par éléments et renvoye la liste avec les sommes
+%Additionne 2 listes Ã©lÃ©ments par Ã©lÃ©ments et renvoye une liste avec les sommes. Si les deux listes ne sont pas de mÃªme longeurs, le debut 
+%de la liste renvoyÃ©e sera la somme des deux listes et losrsque la liste la plus courte est finie, on place les elements de la liste la plus
+%longue (ex : si L1 = [1 2] et L2 = [1 2 3 4] le debut de la liste renvoyÃ©e sera [2 4 et la suite sera 3 4] )
 %Necessite : /
 
 declare
