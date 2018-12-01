@@ -597,3 +597,19 @@ in
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Renvoye la frequence de la note selon la formule donnée dans l'enoncé
+% Necessite : Hauteur 
+declare
+fun{Frequence Note}
+   case Note of note(name:Name octave:Oct sharp:Sharp duration:Dur instrument:Inst) then
+      local H in
+	 H={IntToFloat {Hauteur Note}}
+	 {Pow 2.0 H/12.0}*440.0
+      end
+	[] silence(duration:Dur) then 0.0
+   else 0.0
+   end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
