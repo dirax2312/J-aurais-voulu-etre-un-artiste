@@ -645,10 +645,10 @@ end
 %Necessite : NoteToSample
 
 declare
-fun{ChordToSample Chord}
+fun{ChordToSamples Chord}
    case Chord
    of nil then nil
-   [] H|T then {NoteToSample H}|{ChordToSample T}
+   [] H|T then {NoteToSample H}|{ChordToSamples T}
    end
 end
 
