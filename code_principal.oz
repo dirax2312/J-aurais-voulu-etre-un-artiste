@@ -639,3 +639,17 @@ in
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Transforme chaque note de l'accord en Sample liste de samples correspondant
+%à chaque note dans l'accord
+%Necessite : NoteToSample
+
+declare
+fun{ChordToSample Chord}
+   case Chord
+   of nil then nil
+   [] H|T then {NoteToSample H}|{ChordToSample T}
+   end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
