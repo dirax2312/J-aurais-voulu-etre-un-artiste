@@ -18,6 +18,8 @@ fun{Emplacement Note}
    else 0
    end
 end
+
+%Test
 %Renvoye 1
 declare
 ExtNote1 = note(name:a octave:4 sharp:true duration:2.0 instrument:none)
