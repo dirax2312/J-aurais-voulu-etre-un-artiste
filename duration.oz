@@ -1,7 +1,7 @@
 %Renvoye une partition ou les durées de chaque note sont remplacées par la durée NbrSec mise en argument divisée 
 %par le nombre total de note qu'il y a dans la partition. 
 %ATTENTION :  L'argument NbrSec est un Float
-% Necessite : Longueur, IsNote, IsExtendedNote, IsChord, IsExtendedChord, NoteToExtended, ChordToExtended
+% Necessite : Longueur, ChangeChord, IsNote, IsExtendedNote, IsChord, IsExtendedChord, NoteToExtended, ChordToExtended
 
 declare
 fun{Duration NbrSec Partition}
