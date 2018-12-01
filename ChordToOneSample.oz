@@ -4,11 +4,11 @@
 %Necessite :  Add2Listes 
 
 declare
-fun{AddChordSample Chord}
+fun{ChordToOneSample Chord}
    case Chord
    of nil then nil
    [] H|nil then H
-   [] H1|H2|T then {AddChordSample {Add2Listes H1 H2}|T}
+   [] H1|H2|T then {ChordToOneSample {Add2Listes H1 H2}|T}
    end
 end
 
