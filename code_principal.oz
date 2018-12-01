@@ -289,3 +289,20 @@ fun{Duration NbrSec Partition}
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Renvoit un Extended Chord dont on a Multiplie la duration de
+% chaque Extended Note par le facteur F
+% Nécessité: /
+
+declare
+fun{MultChord F Chord}
+   case Chord
+   of nil then nil
+   [] H|T then
+      local X = {AdjoinAt H duration F*H.duration}
+      in X|{MultChord F T}
+      end
+   end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
