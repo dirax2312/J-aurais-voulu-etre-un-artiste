@@ -17,7 +17,6 @@
 	 [] repeat(amount:N Music) then
 	    {Flatten {Repeat N {Mix Fun Music}}|{Mix Fun T}}
 	 [] clip(low:Low high:High Music) then
-	    {Browse {Clip Low High {Mix Fun Music}}}
 	    {Flatten {Clip Low High {Mix Fun Music}}|{Mix Fun T}}
 	 else 4|{Mix Fun T}
 	 end
