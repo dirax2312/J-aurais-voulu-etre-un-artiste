@@ -703,3 +703,121 @@ fun{PartitionToSamples Partition}
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Prend un nom de fichier en argument et renvoit le contenu de celui-ci. En principe le contenu de ce fichier doit être
+%de la forme d'une liste d'échantillon
+   declare
+   fun{Wave FileName}
+      {Project.Load FileName}
+   end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   
+% Ces deux fonctions sont fort semblables. Elles prennent toutes deux une liste de tuples (de type Fact#Music) en argument en renvoyent une lise composées des facteurs (pour la fonction ListFact) et une liste de Music (pour la fonction ListMusic)
+%Necessite : /
+   declare
+   fun{ListFact List}
+      if List == nil then nil
+      else case List.1
+	   of Fact#Music then
+	      Fact|{ListFact List.2}
+	   end
+      end
+   end
+   fun{ListMusic List}
+      if List == nil then nil
+      else case List.1
+	   of Fact#Music then
+	      Music|{ListMusic List.2}
+	   end
+      end
+   end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+   %Prends deux listes de float en argument et renvoye une liste dont chaque élément n_ème élément est le resultatde la multiplication du n_éme éléments de LFac et de LMus
+%Necessite : /
+   declare
+   fun{Merge LFac LMus}
+      case LFac#LMus
+      of nil#nil then nil
+      [] (HFac|TFac)#(HMus|TMus) then
+	 {Map HMus fun{$ X} X*HFac end}|{Merge TFac TMus}
+      end
+   end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Renvoye la liste Music dont les valeurs sont comprises entre Low et High. Dans le cas ou c'est au dessus ou en dessous de ces valeurs, renvoye soit Low Soit High
+%Necessite : /
+   declare
+   fun{Clip Low High Music}
+      if Low>=High then nil
+      else
+	 case Music
+	 of nil then nil
+	 [] H|T then
+	    if (H=<High andthen H>=Low) then H|{Clip Low High T}
+	    elseif H>High then High|{Clip Low High T}
+	    else Low|{Clip Low High T}
+	    end
+	 end
+      end
+   end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+   %Renvoye un merge qui contient la musique (Music) avec un facteur de 1.0 et l'autre élément est l'echo.
+%Le fonction Listede0 renvoye une liste de D 0
+   
+%Necessite : /
+
+   declare
+   fun{Echo Delay Factor Music}
+      fun{ListeDe0 Delay Acc}
+	 if Delay == 0 then Acc
+	 else {ListeDe0 Delay-1 0.|Acc}
+	 end
+      end
+   in
+      [merge([1.0#Music Factor#{Flatten samples({ListeDe0 {FloatToInt Delay*44100.0} nil})|Music}])]
+   end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+   %prend en argument une liste de samples et une duration (en Float) et répète les samples dans musique
+%pendant la duration indiquée
+
+%Nécessite: /
+
+   declare
+   fun{Loop Duration Musique}
+      fun{LoopTemp D Mus Acc}
+	 if D==0 then Acc
+	 else case Mus of nil then
+		 {LoopTemp D Musique Acc}
+	      [] H|T then
+		 {LoopTemp D-1 T H|Acc}
+	      end
+	 end
+      end
+   in
+      {Reverse {LoopTemp {FloatToInt 44100.0*Duration} Musique nil}}
+   end
+   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+   %Renvoye une liste avec N fois l'élément Music dedans
+%Necessite : /
+
+   declare
+   fun{Repeat N Music}
+      fun{Repeat N Music Acc}
+	 if N == 0 then Acc
+	 else {Repeat N-1 Music Music|Acc}
+	 end
+      end
+   in
+      {Repeat N Music nil}
+   end
+   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
