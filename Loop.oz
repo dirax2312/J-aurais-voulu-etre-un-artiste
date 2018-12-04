@@ -1,3 +1,8 @@
+%prend en argument une liste de samples et une duration (en Float) et répète les samples dans musique
+%pendant la duration indiquée
+
+%Nécessite: /
+
 declare
 fun{Loop Duration Musique}
    fun{LoopTemp D Mus Acc}
