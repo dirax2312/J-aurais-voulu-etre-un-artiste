@@ -1,14 +1,20 @@
+% Projet d'informatique 2 - 2018
+%	Debois Valentine 	NOMA: 46931700
+%	Diriken Axel		NOMA: 33821700
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 local
    % See project statement for API details.
    [Project] = {Link ['Project2018.ozf']}
    Time = {Link ['x-oz://boot/Time']}.1.getReferenceTime
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Fonction qui prend en argument une note et v�rifie si il s'agit
-% bien d'une note en renvoyant true si oui et false sinon.
-% Un silence renvoit true
+% renvoie true si A est une note, false sinon
+% "silence" est considéré comme une note
 
-%N�cessite les fonctions: /
+%Entrée: A - pas de précision
+%Nécessite: /
 
 
    fun{IsNote A}
@@ -44,11 +50,10 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
-% Prend un chord en argument et verifie s'il s'agit bien d'un chord
-% en renvoyant true si c'est le cas et false sinon. Le cas o� le chord est nil
-% renvoit true
+% renvoie true si Chord est un accord, false sinon
 
-%N�cessite : IsNote
+%Entrée: Chord - pas de précision
+%Nécessite : IsNote
    
 
    fun{IsChord Chord}
@@ -64,9 +69,10 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
-% Renvoit true si l'argument est une ExtenededNote et False sinon
-   
-%N�cessite: /
+% Renvoie true si Note est une ExtendedNote et false sinon
+
+%Entrée: Note - pas de précision	
+%Nécessite: /
    
 
    fun{IsExtendedNote Note}
@@ -111,11 +117,11 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Prend un Extended chord en argument et verifie s'il s'agit bien d'un Extended
-% chord en renvoyant true si c'est le cas et false sinon. Le cas o� le chord
-% est nil renvoit true
+% Renvoie true si Chord est un ExtendedChord et false sinon 
+% Le cas où le Chord est nil renvoit true
 
-%N�cessite : /
+%Entrée: Chord - pas de précision
+%Nécessite : /
 
 
    fun{IsExtendedChord Chord}
@@ -131,9 +137,11 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
-% NoteToExtended modifi� par nos soins pour prendre en compte un silence %
-% Prend une note en argument et renvoit la extended note correspondante %
-% Necessite les fcts : /
+% NoteToExtended modifié par nos soins pour prendre en compte un silence 
+% Renvoie la ExtendedNote correspondante à Note
+
+%Entrée: Note - format d'une note	
+% Necessite: /
    
 
 
@@ -158,8 +166,9 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Transforme un accord (liste de notes) en un accord etendu (une liste de note
-% �tendues)
+% Renvoie l'ExtendedChord correspondant à Chord
+	
+%Entrée: Chord - format d'un Chord
 % Necessite : NoteToExtended
 
 
@@ -171,15 +180,13 @@ local
    end
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% renvoie une liste d'ExtendedNote qui comprend Num fois Note
+% Si note est quoi que ce soit d'autre qu'une Note, 
+% une ExtendedNote, un Chord ou un ExtendedChord, renvoit nil
 
-% Prend un argument Note et un nombre Num
-% renoit une liste qui comprends Num fois Note
-% Si Note est une note, la fonction renvoit une liste de note
-% Si Note est une extended note, la fonction
-% renvoit une liste d'extended note
-% Si note est quoi que ce soit d'autre, renvoit nil
-
-% N�cessite: IsNote NoteToExtended IsExtendedNote IsChord ChordToExtended IsExtendedChord
+%Entrée: Note - format d'une Note ou d'une ExtendedNote ou d'un Chord ou d'un ExtendedChord
+% 	 Num - integer
+% Nécessite: IsNote NoteToExtended IsExtendedNote IsChord ChordToExtended IsExtendedChord
 
 
    fun{Drone Note Num}
@@ -225,8 +232,10 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% fonction qui renvoye le nbr de note qu'il y a dans la partition en comptant les notes des accords et des transformations
-% Necessite : IsNote, IsExtendedNote, IsChord, IsExtendedChord
+% Renvoie le nombre de note qu'il y a dans Partition en comptant les notes des accords et des transformations
+
+% Entrée: Partition - format d'une Partition
+% Necessite : IsNote IsExtendedNote IsChord IsExtendedChord
 
 
    fun{Longueur Partition}
@@ -247,8 +256,10 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% renvoye l'accord mis en argument avec chacunes des valeurs duration remplac�e par la valeur NewDuration
-% ATTENTION le chord mis en argument est un ExtendedChord et la NewDuration est un Float
+% renvoie l'accord mis en argument avec chacunes des valeurs duration remplacées par la valeur NewDuration
+	
+%Entrée: NewDuration - Float
+%	 Chord - format d'un ExtendedChord
 % Necessite: /
 
 
@@ -264,10 +275,12 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Renvoye une partition ou les dur�es de chaque note sont remplac�es par la dur�e NbrSec mise en argument divis�e 
-%par le nombre total de note qu'il y a dans la partition. 
-%ATTENTION :  L'argument NbrSec est un Float
-% Necessite : Longueur, ChangeChord, IsNote, IsExtendedNote, IsChord, IsExtendedChord, NoteToExtended, ChordToExtended
+%Renvoie une partition où la durée de chaque note est remplacée par la durée NbrSec mise en argument divisée 
+%par le nombre total de note qu'il y a dans la partition pour que NbrSec devienne la durée totale de la partition. 
+
+%Entrée: NbrSec - Float
+%	 Partition - format de Partition	
+% Necessite : Longueur ChangeChord IsNote IsExtendedNote IsChord IsExtendedChord NoteToExtended ChordToExtended
 
 
    fun{Duration NbrSec Partition}
@@ -279,7 +292,7 @@ local
 	    fun{Duration1 Partition NewDuration}
 	       case Partition
 	       of nil then nil
-	       []H|T then
+	       [] H|T then
 		  if {IsNote H} then
 		     local H1 in
 			H1={NoteToExtended H}
@@ -312,9 +325,12 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Renvoit un Extended Chord dont on a Multiplie la duration de
+% Renvoie un Extended Chord dont on a multiplié la duration de
 % chaque Extended Note par le facteur F
-% N�cessit�: /
+	
+%Entrée: F - Float
+% 	 Chord - format d'un Chord
+% Nécessité: /
 
 
    fun{MultChord F Chord}
@@ -329,9 +345,12 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% transformation Stretch qui allonge la partition P en argument
-% par le facteurF en multipliant chaque partitionItem par F
-% Necessit� : IsNote, NoteToExtended, IsExtendedNote, IsChord, ChordToExtended, IsExtendedChord, MultChord
+% renvoie la partition P en argument, dont la durée est multipliée
+% par le facteur F.
+	
+% Entrée : F - Float
+%	   P - format d'une partition
+% Nécessite : IsNote NoteToExtended IsExtendedNote IsChord ChordToExtended IsExtendedChord MultChord
 
 
    fun{Stretch F P}
@@ -363,12 +382,10 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Transpose l'ExtNote mise en argument d'un demi ton au dessus
-%Cette fonction ne contrôle pas si l'argument est correct, car
-%cette fonctionsera utilsée dans un cas où on est sûr que
-%l'entrée en argument est correct
+%renvoie ExtNote transposée d'un demi ton vers le haut
 
-%Nécessite: /
+%Entree: ExtNote - format d'ExtendedNote
+%Necessite: /
 
 
    fun{SemiTransposeUp ExtNote}
@@ -396,9 +413,10 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
-%Transpose une ExtNote d'un demi ton vers le bas
-   
-% Nécessite: /
+%renvoie ExtNote transposee d'un demi to vers le bas
+ 
+%Entree : ExtNote - format d'une ExtendedNote
+% Necessite: /
 
 
    fun{SemiTransposeDown ExtNote}
@@ -432,10 +450,10 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Transpose toutes les Extended notes contenues dans
-%le Extended Chord pris en argument d'un demi ton
-% vers le haut
-%Necessit� : SemiTransposeUp
+% renvoie Ch dont toutes les notes ont été transposées d'un demi ton vers le haut
+	
+%Entree : Ch - format d'un ExtendedChord
+%Necessité : SemiTransposeUp
 
 
    fun{TransposeChordUp Ch}
@@ -446,12 +464,11 @@ local
    end
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Transpose toutes les Extended notes contenues dans
-%le Extended Chord pris en argument d'un demi ton
-% vers le haut
-
-%N�cessite: SemiTransposeDown
+	
+% renvoie Ch dont toutes les notes ont été transposées d'un demi ton vers le bas
+	
+%Entree : Ch - format d'un ExtendedChord
+%Necessité : SemiTransposeDown
 
    
    fun{TransposeChordDown Ch}
@@ -463,8 +480,12 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Transpose l'item d'un demi ton vers le dessus si N>0 et vers le bas si N<0
-%Necessité : IsNote, NoteToExtended, IsExtendedNote, IsChord, ChordToExtended, IsExtendedChord, TransposeChordUp, TransposeChordDown,
+% renvoie Item transposé d'un demi ton vers le haut si Num>0 et vers le bas si Num<0 
+% renvoie Item si Num=0
+	
+%Entree : Num - Integer
+%	  Item - format dune Note ou d'une ExtendedNote ou d'un Chord ou d'un ExtendedChord
+%Necessite : IsNote, NoteToExtended, IsExtendedNote, IsChord, ChordToExtended, IsExtendedChord, TransposeChordUp, TransposeChordDown,
 % SemiTransposeUp, SempiTransposeDown
 
    
@@ -474,12 +495,9 @@ local
 	    {SemiTransposeUp {NoteToExtended Item}}
 	 elseif {IsExtendedNote Item} then
 	    {SemiTransposeUp Item}
-	    
 	 elseif {IsChord Item} then
 	    {TransposeChordUp {ChordToExtended Item}}
-	 elseif {IsExtendedChord Item} then
-	    {TransposeChordUp Item}
-	 else nil
+	 else {TransposeChordUp Item}
 	 end
       elseif Num < 0 then
 	 if {IsNote Item} then
@@ -488,9 +506,7 @@ local
 	    {SemiTransposeDown Item}
 	 elseif {IsChord Item} then
 	    {TransposeChordDown {ChordToExtended Item}}
-	 elseif {IsExtendedChord Item} then
-	    {TransposeChordDown Item}
-	 else nil
+	 else {TransposeChordDown Item}
 	 end
       else Item
       end
@@ -498,11 +514,12 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Prend un Note Item en argument. L'augmente de Num demi-
-% tons si Num est positif. Le diminue de Num demi-tons
-% si Num est n�gatif.
-
-%N�cessite: SemiTransposeCase
+% renvoie Item transposé de Num demi tons vers le haut si Num>0 et vers le bas si Num<0 
+% renvoie Item si Num=0
+	
+%Entree : Num - Integer
+%	  Item - format dune Note ou d'une ExtendedNote ou d'un Chord ou d'un ExtendedChord
+%Necessite : SemiTransposeCase
 
 
    fun{TransposeCase Num Item}
@@ -515,7 +532,11 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% renvoye une partition qui a ete augment�e/diminu�e d'une certain nombre (Num) de demi tons
+% renvoie Part dont tous les items ont été transposés de Num demi tons vers le haut si Num>0 et vers le bas si Num<0 
+% renvoie Item si Num=0
+	
+%Entree : Num - Integer
+%	  Part - format d'une partition
 % Necessite : TransposeCase
 
 
@@ -529,11 +550,12 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Renvoit une flat partition qui est issue de la partition en argument
+% Renvoie une flat partition qui est issue de Part en argument
 
-% N�cessite: IsNote NoteToExtended IsChord ChordToExtended 
-%          IsExtendedNote IsExtendedChord Duration Drone
-%	   Stretch Transpose
+% Entree : Part - format d'une Partition
+% Nécessite: IsNote NoteToExtended IsChord ChordToExtended 
+%            IsExtendedNote IsExtendedChord Duration Drone
+%      	     Stretch Transpose
 
 
    fun{PartitionToTimedList Part}
@@ -563,7 +585,9 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Renvoye 1 si la note est au dessus de A4 -1 si c'est en dessus et 0 si c'est un silence ou A4
+% Renvoie 1 si la note est au dessus de A4, -1 si elle est en dessous et 0 si c'est un silence ou A4
+	
+% Entrée : Note - format d'une Note
 %Necessite : /
    
 
@@ -587,8 +611,12 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Renvoye la haute d'une note etendue
-%Necessite : Emplacement, SemiTransposeUp, SemiTransposeDown
+% Renvoie la hauteur d'une ExtendedNote; La hauteur est définie comme étant le nombre de demi tons
+% qui sépare une note de la note A4
+% Renvoie 0 si Note est un silence 
+
+% Entrée : Note - format d'une ExtendedNote
+% Necessite : Emplacement, SemiTransposeUp, SemiTransposeDown
 
 
    fun{Hauteur Note}
@@ -604,7 +632,10 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Renvoye la frequence de la note selon la formule donn�e dans l'enonc�
+% Renvoie la frequence de Note selon la formule donnée dans l'énoncé
+% Renvoie 0 si Note est un silence
+	
+% Entrée : Note - format d'une ExtendedNote
 % Necessite : Hauteur 
 
    fun{Frequence Note}
@@ -620,14 +651,12 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Prends une note en argument et renvoit le samples correspondants
-%Le nombre de samples est d�fini par le produit de la duration de
-%la note avec 44100. Dans le cas o� ce produit ne donne pas un
-%nombre entier (par exemple dans le cas de note.duration=0.0001)
-%la fonction arrondi le nombre de sample gr�ce � la fonction
-%FloatToInt
-
-%N�cessite: Frequence
+% Renvoie la liste d'échantillons correspondante à Note.
+% La longueur de la liste d'échantillons est définie par le produit de la duration de
+% Note avec 44100.0.
+	
+% Entrée : Note - format d'une ExtendedNote
+% Nécessite: Frequence
 
 
    fun{NoteToSample Note}
@@ -646,9 +675,11 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Transforme chaque note de l'accord en Sample liste de samples correspondant
-%� chaque note dans l'accord
-%Necessite : NoteToSample
+% Renvoie Chord dont chaque note est transformée en liste d'échantillons.
+% Renvoie donc une liste de liste d'échantillons
+
+% Entrée : chord - format d'un ExtendedChord
+% Necessite : NoteToSample
 
 
    fun{ChordToSamples Chord}
@@ -660,9 +691,11 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
-%Additionne 2 listes éléments par éléments et renvoye une liste avec les sommes. Si les deux listes ne sont pas de même longeurs, le debut 
-%de la liste renvoyée sera la somme des deux listes et losrsque la liste la plus courte est finie, on place les elements de la liste la plus
-%longue (ex : si L1 = [1 2] et L2 = [1 2 3 4] le debut de la liste renvoyée sera [2 4 et la suite sera 3 4] )
+% Renvoie l'addition de 2 Listes éléments par éléments. Si les deux listes ne sont pas de mÃªme longeurs, la liste la plus courte
+% complétées par des 0.
+
+% Entrée : L1 - Liste
+%   	   L2 - Liste
 %Necessite : /
 
 
@@ -677,10 +710,11 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Renvoie l'addition terme par terme des echantillons correspondants à chaque note de Chord 
+% Les notes dont la durée est plus courte que la note dont la durée est la plus longue sont comblées par du silence
 
-%Additionne les samples qui se trouvent dans le chord. Si les listes de samples ne sont pas de meme longueurs, on suit le 
-%processus de Add2Listes car on complete la liste la plus courte par des silences dont l'intensité vaut 0.
-%Necessite :  Add2Listes 
+% Entrée : Chord - format de sortie de la fonction ChordToSamples (cfr plus haut)
+% Necessite :  Add2Listes 
 
 
    fun{ChordToOneSample Chord}
@@ -695,7 +729,7 @@ local
 
 %prend en argument une partiton et renvoit la liste de sample correspondant
 
-%N�cessite: IsExtendedNote NoteToSample ChordToOneSample
+%Nécessite: IsExtendedNote NoteToSample ChordToOneSample
 
 
    fun{PartitionToSamples Partition}
@@ -709,8 +743,8 @@ local
    end
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Prend un nom de fichier en argument et renvoit le contenu de celui-ci. En principe le contenu de ce fichier doit �tre
-%de la forme d'une liste d'�chantillon
+%Prend un nom de fichier en argument et renvoit le contenu de celui-ci. En principe le contenu de ce fichier doit être
+%de la forme d'une liste d'échantillon
 
    fun{Wave FileName}
       {Project.Load FileName}
@@ -718,7 +752,7 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
-% Ces deux fonctions sont fort semblables. Elles prennent toutes deux une liste de tuples (de type Fact#Music) en argument en renvoyent une lise compos�es des facteurs (pour la fonction ListFact) et une liste de Music (pour la fonction ListMusic)
+% Ces deux fonctions sont fort semblables. Elles prennent toutes deux une liste de tuples (de type Fact#Music) en argument en renvoyent une lise composées des facteurs (pour la fonction ListFact) et une liste de Music (pour la fonction ListMusic)
 %Necessite : /
 
    fun{ListFact List}
@@ -740,7 +774,7 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-   %Prends deux listes de float en argument et renvoye une liste dont chaque �l�ment n_�me �l�ment est le resultatde la multiplication du n_�me �l�ments de LFac et de LMus
+   %Prends deux listes de float en argument et renvoye une liste dont chaque élément n_ème élément est le resultatde la multiplication du n_éme éléments de LFac et de LMus
 %Necessite : /
 
    fun{Merge LFac LMus}
@@ -771,7 +805,7 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-   %Renvoye un merge qui contient la musique (Music) avec un facteur de 1.0 et l'autre �l�ment est l'echo.
+   %Renvoye un merge qui contient la musique (Music) avec un facteur de 1.0 et l'autre élément est l'echo.
 %Le fonction Listede0 renvoye une liste de D 0
    
 %Necessite : /
@@ -789,10 +823,10 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-   %prend en argument une liste de samples et une duration (en Float) et r�p�te les samples dans musique
-%pendant la duration indiqu�e
+   %prend en argument une liste de samples et une duration (en Float) et répète les samples dans musique
+%pendant la duration indiquée
 
-%N�cessite: /
+%Nécessite: /
 
 
    fun{Loop Duration Musique}
@@ -811,7 +845,7 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-   %Renvoye une liste avec N fois l'�l�ment Music dedans
+   %Renvoye une liste avec N fois l'élément Music dedans
 %Necessite : /
 
 
@@ -827,7 +861,7 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Renvoye Music avec les samples correspondants � Sec modifi�s pour monter l'intesit� lineairement durant ce nombre de seconde
+%Renvoye Music avec les samples correspondants à Sec modifiés pour monter l'intesité lineairement durant ce nombre de seconde
 %Necessite : /
    fun{Start1 Sec Music}
       local
@@ -848,7 +882,7 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Renvoye Music avec les samples correspondants � Sec modifi�s pour descendre l'intesit� lineairement durant ce nombre de seconde
+%Renvoye Music avec les samples correspondants à Sec modifiés pour descendre l'intesité lineairement durant ce nombre de seconde
 %Necessite : /
    fun{Out Sec Music}
       local
@@ -867,7 +901,7 @@ local
    end
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % Renvoye une liste dont le debut et la fin sont graduels selon les dur�es DStart et DOut
+  % Renvoye une liste dont le debut et la fin sont graduels selon les durées DStart et DOut
 %Necessite : Start1, Out
    fun{Fade DStart DOut Music}
       local
@@ -889,9 +923,9 @@ local
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %prend en argument une fonction et une musique et renvoit une liste
-% sample correspondant � cette musique
+% sample correspondant à cette musique
 
-%N�cessite: PartitionToTimedList
+%Nécessite: PartitionToTimedList
 
 
 
