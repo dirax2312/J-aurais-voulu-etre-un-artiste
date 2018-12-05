@@ -727,8 +727,9 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%prend en argument une partiton et renvoit la liste de sample correspondant
+%renvoit la liste d'échantillons correspondante à une partiton prise en argument   
 
+%Entrée : Partition - format d'une Flat Partition
 %Nécessite: IsExtendedNote NoteToSample ChordToOneSample
 
 
@@ -743,8 +744,12 @@ local
    end
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Prend un nom de fichier en argument et renvoit le contenu de celui-ci. En principe le contenu de ce fichier doit être
-%de la forme d'une liste d'échantillon
+	
+%renvoie le contenu du fichier FileName. En principe le contenu de ce fichier doit être
+%de la forme d'une liste d'échantillons
+
+%Entrée : FileName - atom de type 'Nom de fichier.wav'
+%Necessite : /
 
    fun{Wave FileName}
       {Project.Load FileName}
@@ -752,7 +757,11 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
-% Ces deux fonctions sont fort semblables. Elles prennent toutes deux une liste de tuples (de type Fact#Music) en argument en renvoyent une lise composées des facteurs (pour la fonction ListFact) et une liste de Music (pour la fonction ListMusic)
+% Ces deux fonctions sont fort semblables.
+%renvoient une liste composées des facteurs (pour la fonction ListFact) et une liste de Music (pour la fonction ListMusic)
+
+
+%Entree : List - liste de tuple de type Fact#Music
 %Necessite : /
 
    fun{ListFact List}
@@ -763,6 +772,7 @@ local
 	   end
       end
    end
+	
    fun{ListMusic List}
       if List == nil then nil
       else case List.1
@@ -774,7 +784,10 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-   %Prends deux listes de float en argument et renvoye une liste dont chaque élément n_ème élément est le resultatde la multiplication du n_éme éléments de LFac et de LMus
+%renvoie une liste dont chaque n-ième élément est le resultat de la multiplication du n-iéme élément de LFac et de LMus
+	
+%Entree : LFac - Liste de Float
+%	  LMus - Liste d'échantillons
 %Necessite : /
 
    fun{Merge LFac LMus}
@@ -786,7 +799,13 @@ local
    end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Renvoye la liste Music dont les valeurs sont comprises entre Low et High. Dans le cas ou c'est au dessus ou en dessous de ces valeurs, renvoye soit Low Soit High
+	
+%Renvoie la liste Music dont les valeurs sont comprises entre Low et High. Dans le cas ou un echantillon
+%est supérieur à High renvoie High dans la cas ou un echantillon est inférieur à Low renvoie Low,
+	
+%Entree : Low - Float
+%	  High - Float
+%	  Musique - Liste d'échantillons
 %Necessite : /
    
    fun{Clip Low High Music}
@@ -805,9 +824,13 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-   %Renvoye un merge qui contient la musique (Music) avec un facteur de 1.0 et l'autre élément est l'echo.
-%Le fonction Listede0 renvoye une liste de D 0
+%Renvoie un merge qui contient Music muliplié par un facteur 1.0 et l'autre élément par Factor. Le deuxième élément est Music précédé
+	%d'un silence dont la durée vaut Delay.
+%Le fonction Listede0 renvoie une liste de longueur Delay remplie de zeros.
    
+%Entree : Delay - Float
+%	  Factor - Float
+%	  Music - format d'une Music
 %Necessite : /
 
 
@@ -823,29 +846,33 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-   %prend en argument une liste de samples et une duration (en Float) et répète les samples dans musique
-%pendant la duration indiquée
+%renvoie Musique en boucle pendant une durée Duration
 
+%Entree : Duration - Float
+%	  Musique - Liste d'échantillons
 %Nécessite: /
 
 
    fun{Loop Duration Musique}
-      fun{LoopTemp D Mus Acc}
+      fun{LoopAcc D Mus Acc}
 	 if D==0 then Acc
 	 else case Mus of nil then
-		 {LoopTemp D Musique Acc}
+		 {LoopAcc D Musique Acc}
 	      [] H|T then
-		 {LoopTemp D-1 T H|Acc}
+		 {LoopAcc D-1 T H|Acc}
 	      end
 	 end
       end
    in
-      {Reverse {LoopTemp {FloatToInt 44100.0*Duration} Musique nil}}
+      {Reverse {LoopAcc {FloatToInt 44100.0*Duration} Musique nil}}
    end
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-   %Renvoye une liste avec N fois l'élément Music dedans
+%Renvoie une liste avec N fois Music
+	
+%Entree: N - Integer
+%	 Music - Liste
 %Necessite : /
 
 
@@ -861,8 +888,12 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Renvoye Music avec les samples correspondants à Sec modifiés pour monter l'intesité lineairement durant ce nombre de seconde
+%Renvoye Music avec le nombre d'echantillons correspondants à Sec modifiés pour monter l'intesité lineairement durant un temps de Sec
+
+%Entree : Sec - Float
+%	  Music - Liste d'echantillons
 %Necessite : /
+	
    fun{Start1 Sec Music}
       local
 	 NbrSample = {FloatToInt Sec*44100.0}
@@ -882,8 +913,13 @@ local
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Renvoye Music avec les samples correspondants à Sec modifiés pour descendre l'intesité lineairement durant ce nombre de seconde
+%Renvoie Music avec le nombre d'echantillons correspondants à Sec modifiés pour descendre l'intesité 
+%lineairement durant un temps de Sec
+	
+%Entree : Sec - Float
+%	  Music - Liste d'echantillons
 %Necessite : /
+	
    fun{Out Sec Music}
       local
 	 NbrSample = {FloatToInt Sec*44100.0}
@@ -901,7 +937,12 @@ local
    end
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % Renvoye une liste dont le debut et la fin sont graduels selon les durées DStart et DOut
+% Renvoie une liste dont le debut et la fin sont graduels en intensite selon les durées DStart au debut et DOut a la fin
+%Interval prend une liste Xs et renvoie la liste du N-ieme au M-ieme element inclus
+	
+%Entree : DStart - Float
+%	  DOut - Float
+%	  Music - Liste d'echantillons
 %Necessite : Start1, Out
    fun{Fade DStart DOut Music}
       local
@@ -922,10 +963,11 @@ local
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%prend en argument une fonction et une musique et renvoit une liste
-% sample correspondant à cette musique
+%renvoie une liste d'echantillons correspondant à Music
 
-%Nécessite: PartitionToTimedList
+%Entree : Fun - Fonction (PartitionToTimedList en principe)
+%	  Music - format d'une Music
+%Nécessite: PartitionToTimedList PartitionToSamples Wave ChordToOneSample Merge Repeat Loop Clip Echo Fade
 
 
 
