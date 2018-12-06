@@ -1001,9 +1001,7 @@ local
 	    {Flatten {List.take {List.drop {Mix Fun Music} {FloatToInt 44100.0*Start}-1} {FloatToInt 44100.0*(Finish-Start)}}|{Mix Fun T}}
 	 [] fade(start:DStart out:DOut Music) then
 	    {Flatten {Fade DStart DOut {Mix Fun Music}}|{Mix Fun T}}
-	 else 4|{Mix Fun T}
 	 end
-      else 4
       end
    end
    
